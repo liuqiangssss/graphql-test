@@ -1,0 +1,33 @@
+type Book {
+  # Example field (placeholder)
+  id: Int
+  name: String
+  description: String
+  price: Int
+}
+
+input CreateBookInput {
+  # Example field (placeholder)
+  name: String
+  description: String
+  price: Int
+}
+
+input UpdateBookInput {
+  id: Int!
+  name: String
+  description: String
+  price: Int
+}
+
+# books.resolver.ts 对应
+type Query {
+  books: [Book]!
+  book(id: Int!): Book
+}
+
+type Mutation {
+  createBook(createBookInput: CreateBookInput!): Book!
+  updateBook(updateBookInput: UpdateBookInput!): Book!
+  removeBook(id: Int!): Book
+}
