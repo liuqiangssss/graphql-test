@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBookInput } from './dto/create-book.input';
-import { UpdateBookInput } from './dto/update-book.input';
+import { CreateBookDto } from './dto/create-book.input';
+import { UpdateBookDto } from './dto/update-book.input';
 
 @Injectable()
 export class BooksService {
-  create(createBookInput: CreateBookInput) {
+  create(createBookInput: CreateBookDto) {
     console.log(createBookInput);
     return {
       id: 5,
@@ -39,7 +39,7 @@ export class BooksService {
     return `This action returns a #${id} book`;
   }
 
-  update(id: number, updateBookInput: UpdateBookInput) {
+  update(id: number, updateBookInput: UpdateBookDto) {
     return `This action updates a #${id} book`;
   }
 
