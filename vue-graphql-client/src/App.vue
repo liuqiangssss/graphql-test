@@ -1,31 +1,58 @@
 <template>
-  <div v-for=" item in result?.books">
-    <span>{{ item.id }} </span>
-    <span>{{ item.name }} </span>
-    <span>{{ item.description }} </span>
+  <input type="text" @keyup.enter="onEnter" />
+  <div class="container" v-for=" item in bookResult" @click="removeBookById(item)">
+    <span>id: {{ item.id }} </span>
+    <span>name: {{ item.name }} </span>
+    <span>description: {{ item.description }} </span>
+  </div>
+  <div>
+    <!-- <div>
+      {{ detail }}
+    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
+import { getBooks, addBook, removeBook } from './services';
+import { onMounted, ref } from 'vue';
 
-import { useBooks } from '../src/services/index';
-// 使用时加可选链，未加载完成时，result为undefined
-const result = useBooks();
+const bookResult = ref()
+// const detail = ref()
+onMounted(async () => {
+  const { data } = await getBooks()
+  bookResult.value = data.books
+})
+type book = {
+  id: number,
+  name: string,
+  description: string
+}
+const removeBookById = async (item: book) => {
+  const { data } = await removeBook(item.id)
+  bookResult.value = data.removeBook
+}
+const onEnter = async (e: any) => {
+  if (e.key === 'Enter') {
+    const { data } = await addBook(e.target.value)
+    bookResult.value.push(data.createBook)
+    e.target.value = ''
+  }
+}
+
 </script>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin: 0 20px 20px 0;
+  cursor: pointer;
 }
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.container:hover {
+  box-shadow: 0 0 10px 0 #ddd;
 }
 </style>

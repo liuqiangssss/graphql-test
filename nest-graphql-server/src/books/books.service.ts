@@ -2,41 +2,50 @@ import { Injectable } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.input';
 import { UpdateBookDto } from './dto/update-book.input';
 
+let books: any = [
+  {
+    id: 1,
+    name: 'book1',
+    description: 'This is book1',
+    price: 100,
+  },
+  {
+    id: 2,
+    name: 'book2',
+    description: 'This is book2',
+    price: 100,
+  },
+  {
+    id: 3,
+    name: 'book3',
+    description: 'This is book3',
+    price: 100,
+  },
+];
 @Injectable()
 export class BooksService {
   create(createBookInput: CreateBookDto) {
     console.log(createBookInput);
-    return {
-      id: 5,
+    const temp = {
+      id: books.length + 1,
+      description: `This is book${books.length + 1}`,
       ...createBookInput,
     };
+    books.push(temp);
+    return temp;
   }
 
   findAll() {
-    return [
-      {
-        id: 1,
-        name: 'book1',
-        description: 'This is book1',
-        price: 100,
-      },
-      {
-        id: 2,
-        name: 'book2',
-        description: 'This is book2',
-        price: 100,
-      },
-      {
-        id: 3,
-        name: 'book3',
-        description: 'This is book3',
-        price: 100,
-      },
-    ];
+    return books;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} book`;
+    return {
+      id: id,
+      name: `book${id}`,
+      description: `This is book${id}`,
+      price: 100,
+    };
   }
 
   update(id: number, updateBookInput: UpdateBookDto) {
@@ -44,6 +53,7 @@ export class BooksService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} book`;
+    books = books.filter((book) => book.id !== id);
+    return books;
   }
 }

@@ -3,23 +3,7 @@ type Book {
   id: Int
   name: String
   description: String
-  price: Int
 }
-
-input CreateBookInput {
-  # Example field (placeholder)
-  name: String
-  description: String
-  price: Int
-}
-
-input UpdateBookInput {
-  id: Int!
-  name: String
-  description: String
-  price: Int
-}
-
 # books.resolver.ts 对应
 type Query {
   books: [Book]!
@@ -29,5 +13,17 @@ type Query {
 type Mutation {
   createBook(createBookDto: CreateBookInput!): Book!
   updateBook(createBookDto: UpdateBookInput!): Book!
-  removeBook(id: Int!): Book
+  removeBook(id: Int!): [Book]!
+}
+
+input CreateBookInput {
+  # Example field (placeholder)
+  name: String
+  description: String
+}
+
+input UpdateBookInput {
+  id: Int!
+  name: String
+  description: String
 }
